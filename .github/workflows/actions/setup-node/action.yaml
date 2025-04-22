@@ -1,0 +1,32 @@
+name: Setup
+description: Setup node project
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Configure node
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      shell: bash
+      with:
+        version: 9
+
+    - name: Setup pnpm cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.pnpm-store
+          node_modules
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile --prefer-offline
+      shell: bash
+      env:
+        PNPM_HOME: ~/.pnpm-store

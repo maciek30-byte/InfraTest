@@ -1,0 +1,9 @@
+name: quality-check
+description: check lint
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Lint code
+      run: pnpm run lint
+      shell: bash

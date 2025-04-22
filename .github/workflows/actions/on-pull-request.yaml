@@ -1,0 +1,21 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pr-check:
+    environment:
+      name: 'Preview'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: ./.github/workflows/actions/code-check
+
+      - name: Greeting
+        run: echo "Good work your pr is ready to merge" >> $GITHUB_STEP_SUMMARY

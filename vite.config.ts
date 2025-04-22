@@ -1,15 +1,14 @@
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import packageJson from './package.json';
-import {defineConfig} from "vite";
+// @ts-ignore
+import eslint from 'vite-plugin-eslint';
 
 export default defineConfig({
-  plugins: [react()],
-  base: './',
-  build: {
-    emptyOutDir: true,
-    sourcemap: true
-  },
-  define : {
-    __APP_VERSION__: JSON.stringify(packageJson.version)
-  }
+  plugins: [
+    react(),
+    eslint({
+      failOnError: false,
+      cache: true,
+    })
+  ]
 });
