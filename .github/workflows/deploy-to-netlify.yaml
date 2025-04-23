@@ -1,0 +1,31 @@
+name: Deploy to Netlify
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-netlify:
+    runs-on: ubuntu-latest
+    environment:
+      name: 'Development'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: ./.github/workflows/actions/setup-node
+
+      - name: Build app
+        run: pnpm run build
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './dist'
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: 'Deployed from GitHub Actions'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

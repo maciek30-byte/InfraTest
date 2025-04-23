@@ -21,5 +21,8 @@ jobs:
       - name: Setup Node
         uses: ./.github/workflows/actions/setup-node
 
+      - name: Code format check
+        uses: ./.github/workflows/actions/code-check
+
       - name: Greeting
         run: echo "Good work your pr is ready to merge" >> $GITHUB_STEP_SUMMARY
